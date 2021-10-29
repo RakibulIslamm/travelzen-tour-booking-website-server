@@ -42,7 +42,7 @@ const run = async () => {
     // Booking Post API
     app.post('/bookings', async (req, res) => {
         const booking = req.body;
-        const result = bookingCollection.insertOne(booking);
+        const result = await bookingCollection.insertOne(booking);
         res.json(result);
     })
 
