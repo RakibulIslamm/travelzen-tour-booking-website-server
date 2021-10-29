@@ -44,6 +44,14 @@ const run = async () => {
         const booking = req.body;
         const result = await bookingCollection.insertOne(booking);
         res.json(result);
+    });
+
+    // Packages Post API
+    app.post('/packages', async (req, res) => {
+        const package = req.body;
+        console.log(package);
+        // const result = packageCollection.insertOne(package);
+        res.json('Hello');
     })
 
 };
