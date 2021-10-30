@@ -49,10 +49,49 @@ const run = async () => {
     // Packages Post API
     app.post('/packages', async (req, res) => {
         const package = req.body;
-        console.log(package);
-        // const result = packageCollection.insertOne(package);
-        res.json('Hello');
+        const result = await packageCollection.insertOne(package);
+        res.json(result);
+    });
+
+    // get single user booked items
+    app.post('/my-booked', async (req, res) => {
+        const email = req.body;
+        const query = { email: { $in: email } }
+        // console.log(query);
+        const cursor = bookingCollection.find(query);
+        const myBooked = await cursor.toArray()
+        res.send(myBooked)
+    });
+
+    //Update user
+    app.put('/my-booked/:id', async (req, res) => {
+        const id = req.params.id;
+        const approvedUser = req.body;
+        const filter = { _id: ObjectId(id) };
+        const updateDoc = {
+            $set: {
+                status: approvedUser.status = true
+            }
+        };
+        const result = await bookingCollection.updateOne(filter, updateDoc);
+        res.json(result);
+    });
+
+    // Get All booked API
+    app.get('/all-booked', async (req, res) => {
+        const cursor = bookingCollection.find({});
+        const allBooked = await cursor.toArray();
+        res.send(allBooked);
+    });
+
+    // Booked Delete API
+    app.delete('/all-booked/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const result = await bookingCollection.deleteOne(query);
+        res.send(result)
     })
+
 
 };
 
