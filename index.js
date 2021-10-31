@@ -23,6 +23,7 @@ const run = async () => {
     const database = client.db('Travelzen');
     const packageCollection = database.collection('packages');
     const bookingCollection = database.collection('bookings');
+    const destinationsCollection = database.collection('destinations');
 
     // Get packages API
     app.get('/packages', async (req, res) => {
@@ -90,6 +91,13 @@ const run = async () => {
         const query = { _id: ObjectId(id) };
         const result = await bookingCollection.deleteOne(query);
         res.send(result)
+    });
+
+    // get destination API
+    app.get('/destinations', async (req, res) => {
+        const cursor = destinationsCollection.find({});
+        const destination = await cursor.toArray();
+        res.send(destination);
     })
 
 
